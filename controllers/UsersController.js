@@ -1,21 +1,23 @@
-const User = require("../database/models/User");
+const User = require("../database/models/user");
 
-const createUser = async(req, res) => {
-    const {name,email,password, roles}= req.body;
+const createUser = async (req, res) => {
+  const { name, email, password, roles } = req.body;
 
-    const user= await User.create({
-        name,
-        email,
-        password
+  try {
+    let user = await User.create({
+      name,
+      email,
+      password,
     });
-
-  res.send(user);
-
+    res.json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
 
-const users=async (req, res)=>{
-    const users=await User.findAll();
-    res.send({users});
-}
+const users = async (req, res) => {
+  const users = await User.findAll();
+  res.send({ users });
+};
 
-module.exports = {createUser,users};
+module.exports = { createUser, users };

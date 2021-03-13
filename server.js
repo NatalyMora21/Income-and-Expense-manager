@@ -2,7 +2,7 @@ const app = require('./app');
 const sequelize = require("./database/db");
 
 //settings
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 //Initialize the server
 app.listen(PORT, () => {
     console.log(`App listening at http://localhost:${PORT}`);
@@ -10,7 +10,7 @@ app.listen(PORT, () => {
     //Connect to the database
     //Create automation the tables
     //Force: false => Do not restart the tables
-    sequelize.sync({force:false}).then(() => {
+    sequelize.sync({force:true}).then(() => {
         console.log("Database connect");
         }).catch((err) => {
         console.log(err);
