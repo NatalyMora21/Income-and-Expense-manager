@@ -1,17 +1,15 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../db");
+  
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../db');
 
-class Transactions extends Model {}
-
-Transactions.init(
-  {
-    user: DataTypes.STRING,
-    monto: DataTypes.NUMBER,
-  },
-  {
+class Operations extends Model {}
+Operations.init({
+    title: DataTypes.STRING,
+    type: DataTypes.STRING,
+    amount:DataTypes.DECIMAL,
+}, {
     sequelize,
-    modelName: "transactions",
-  }
-); 
+    modelName: "operations"
+});
 
-module.exports = Transactions;
+module.exports = Operations;

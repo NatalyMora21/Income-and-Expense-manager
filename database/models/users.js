@@ -37,7 +37,9 @@ User.init(
         msg:"The email is already registered in the database",
       },
     } ,
-    password: DataTypes.STRING,
+    password:{ 
+      allowNull:false,
+      type:DataTypes.STRING},
   },
   {
     sequelize,

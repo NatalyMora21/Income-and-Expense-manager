@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 //Indicar que todas las rutas 
 app.use('/',require('./e_routes/userrouter'));
-app.use('/',require('./e_routes/transactionsroute'));
+app.use('/transactions',require('./e_routes/transactionsroute'));
 module.exports = app;
 
 

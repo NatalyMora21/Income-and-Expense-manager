@@ -1,13 +1,20 @@
 const {Router} = require('express');
 //Con esto se podrá acceder a todas las propiedades del router
 const router = Router();
-const {createUser,users}= require('../controllers/UsersController')
+const {createtransaction,alltransactions}= require('../controllers/transactionsController');
+const verifyToken= require('../middlware/authjws');
 
+//Consultar todas las transacciones del usuario
+router.get('/',verifyToken,alltransactions);
 
-router.get('/',users);
-//router.post('/signin',controllersUser);
-//Register User
-router.post('/signup',createUser);
-//router.post('/signin',controllersUser);
+//Crear una transacción (Ingreso o egreso)
+router.post('/create',verifyToken,createtransaction);
+
+//Modificar una transacción (Ingreso o egreso)
+router.put('/modify',verifyToken,createtransaction);
+
+//Eliminar transacción
+router.delete('/delete',verifyToken,createtransaction);
+
 
 module.exports = router;

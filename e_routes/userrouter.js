@@ -1,13 +1,12 @@
 const {Router} = require('express');
 //Con esto se podrá acceder a todas las propiedades del router
 const router = Router();
-const {createUser,users}= require('../controllers/UsersController')
+const {signUp,signIn}= require('../controllers/UsersController')
 
-
-router.get('/',users);
-//router.post('/signin',controllersUser);
+//router.get('/',users);
 //Register User
-router.post('/signup',createUser);
-//router.post('/signin',controllersUser);
+router.post('/signup',signUp);
+//Loging user
+router.post('/login',signIn);
 
 module.exports = router;

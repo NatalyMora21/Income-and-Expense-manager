@@ -1,5 +1,6 @@
 const app = require('./app');
 const sequelize = require("./database/db");
+const asociations = require("./database/asociations");
 
 //settings
 const PORT = process.env.PORT || 4000;
@@ -10,7 +11,7 @@ app.listen(PORT, () => {
     //Connect to the database
     //Create automation the tables
     //Force: false => Do not restart the tables
-    sequelize.sync({force:true}).then(() => {
+    sequelize.sync({force:false}).then(() => {
         console.log("Database connect");
         }).catch((err) => {
         console.log(err);
