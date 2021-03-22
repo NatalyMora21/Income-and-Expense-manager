@@ -3,7 +3,7 @@ const sequelize = require("./database/db");
 const asociations = require("./database/asociations");
 
 //settings
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
 //Initialize the server
 app.listen(PORT, () => {
     console.log(`App listening at http://localhost:${PORT}`);
