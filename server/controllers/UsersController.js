@@ -45,6 +45,7 @@ const signIn = async (req, res) => {
       }
       else{
         //Create token
+        req.userid=userfound[0].dataValues.id;
         const token = jwt.sign({ id: userfound[0].dataValues.id}, config.SECRET, {
           expiresIn: 300,
         });

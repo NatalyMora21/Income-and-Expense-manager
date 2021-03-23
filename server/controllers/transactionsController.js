@@ -3,13 +3,14 @@ const Transactions = require("../database/models/transactions");
 
 //Function ALL user transactions
 const alltransactions = async (req, res) => {
+  console.log('Ingreso')
   const transactions = await Transactions.findAll({
     attributes: ["title", "type", "amount"],
     where: {
       userId: req.userid,
     },
   });
-  console.log(req.userid);
+  console.log(transactions);
   res.json(transactions);
 };
 

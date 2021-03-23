@@ -7,15 +7,15 @@ const User = require('../database/models/users')
 
 const verifyToken= async(req, res, next)=>{
 
-  console.log(req.headers["x-access-token"])
 
     try {
         const token= req.headers["x-access-token"]; 
-        console.log(token)
+        console.log('Ingreso');
         //Si no se está enviando ningún toke
         if(!token) return res.json({message: 'No token provided'});
         //Validar si el token es válido, con el id puedo validar que usuario está logueado
         const decoded= await jwt.verify(token,config.SECRET);
+        console.log('tokeee',token)
         req.userid= decoded.id;       
         //Cuando me devuelve el objeto no necesito la contraseña, por eso
         const user = await User.findAll({

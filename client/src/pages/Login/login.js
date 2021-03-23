@@ -2,14 +2,10 @@ import React, {useState} from 'react';
 import './login.css'
 import Axios from "axios";
 //import 'bootstrap/dist/css/bootstrap.min.css'
-import Title from './components/Title/title.jsx'
-import Label from './components/Label/label.jsx'
-import Input from './components/Input/input.jsx'
-import UserAuth from '../components/index'
-
-
-
-
+import Title from '../components/Title/title.jsx'
+import Label from '../components/Label/label.jsx'
+import Input from '../components/Input/input.jsx'
+/*import UserAuth from '../components/index'*/
 
 const Login= ()=>{
     const [user, setUser]= useState('');
@@ -42,25 +38,24 @@ const Login= ()=>{
             //Validar que el usaurio esté en la base de datos y que el usaurio y contraseña sean correctos
             if(param.user){
                 setIslogin(true)
-                //llevar a otra pantalla
-                
+                //llevar a otra pantalla 
             }
             else{
                 setIslogin(false)
                 setHasError(true)
             }
-            
+ 
         }
     }
 
-    function handleSubmitprueba(){
+    /*function handleSubmitprueba(){
         let account= {user, password}
         if (account){
             console.log('account', account)
             ifmatch(account);
         }
 
-    }
+    }*/
     console.log('usuario:', user)
     console.log('pass:', password)
 
