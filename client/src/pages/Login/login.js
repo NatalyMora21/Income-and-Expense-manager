@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import './login.css'
 import Axios from "axios";
-//import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 import Title from '../components/Title/title.jsx'
 import Label from '../components/Label/label.jsx'
 import Input from '../components/Input/input.jsx'

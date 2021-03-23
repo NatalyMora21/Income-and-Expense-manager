@@ -47,7 +47,7 @@ const signIn = async (req, res) => {
         //Create token
         req.userid=userfound[0].dataValues.id;
         const token = jwt.sign({ id: userfound[0].dataValues.id}, config.SECRET, {
-          expiresIn: 300,
+          expiresIn: 8000,
         });
         const name= userfound[0].dataValues.name;
         const email= userfound[0].dataValues.email;

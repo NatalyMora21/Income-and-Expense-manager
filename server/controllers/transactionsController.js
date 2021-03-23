@@ -5,7 +5,7 @@ const Transactions = require("../database/models/transactions");
 const alltransactions = async (req, res) => {
   console.log('Ingreso')
   const transactions = await Transactions.findAll({
-    attributes: ["title", "type", "amount"],
+    attributes: ["title", "type", "amount", "id"],
     where: {
       userId: req.userid,
     },
@@ -24,7 +24,7 @@ const createtransaction = async (req, res) => {
   try {
     let transaction = await Transactions.create({
       title,
-      type,
+      type:"I",
       amount,
       userId,
     });
@@ -37,6 +37,8 @@ const createtransaction = async (req, res) => {
 //Function MODIFY transaction
 const modifytransaction = async (req, res) => {
   const { idtransaction, amount } = req.body;
+
+  console.log('idddd',idtransaction);
 
   const updatetransaction = await Transactions.update(
     {
@@ -54,14 +56,15 @@ const modifytransaction = async (req, res) => {
 
 //Function DELETE transaction
 const deletetransaction = async (req, res) => {
-  const idtransaction = req.body.idtransactions;
+  const idtransaction = req.params.id;
+  console.log('idtransaction',req.userid);
   let deletetransactons = await Transactions.destroy({
     where: {
       id: idtransaction,
-      userId: req.userid,
+      //userId: req.userid,
     },
   });
-  res.send(deletetransactons);
+  res.json(deletetransactons);
 };
 
 module.exports = {
