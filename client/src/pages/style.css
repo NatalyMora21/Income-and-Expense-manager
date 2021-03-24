@@ -59,12 +59,7 @@ input{
 }
 
 .close-session{
-    background: #F3BC1D;
-    border: #F3BC1D;
-    font-size: 12px;
-    padding: 7px;
-    margin-bottom: 15px;
-
+    margin: 10px;
 }
 
 .button-createoperation{
@@ -87,5 +82,31 @@ input{
 
 .but-update{
     background-color: #C70039;
+
+}
+
+
+.alert{margin-top: 30px;}
+
+.results{
+    margin-top: 20px;
+    text-align: center;
+    
+}
+
+.entry{
+    color:#33DE5D;
+}
+
+.discharge{
+    color:#F41C1C;
+}
+
+
+.button-closesesion{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
 
 }

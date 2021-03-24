@@ -27,8 +27,14 @@ const Home = () => {
   //transaction form fields
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
+  const [type, setType] = useState("");
   const [listoperation, setlistoperation] = useState([]);
   const [newamount, setNewamount] = useState(0);
+  const [ingresos, setIngresos] = useState(0);
+  const [egresos, setEgresos] = useState(0);
+  const [total, setTotal] = useState(false);
+
+
 
   const [showtable, setshowTable] = useState(true);
 
@@ -39,6 +45,27 @@ const Home = () => {
       setAmount(value);
     }
   }
+
+  const balance= (arrayoperations)=>{
+    console.log('balance',arrayoperations);
+    let ingresosuser=0;
+    let egresosuser=0;
+    arrayoperations.forEach(function(operation) {
+      console.log((operation.amount)) 
+      if (operation.type === 'I') {
+        ingresosuser+=(parseFloat(operation.amount));
+      }
+      else{
+        egresosuser+=(parseFloat(operation.amount));
+      }
+    });
+    setIngresos(ingresosuser);
+    setEgresos(egresosuser);
+
+    console.log('suma',ingresosuser)
+    console.log('resta',egresosuser)
+  }
+
   //Close session
   const cerarrSesion = () => {
     localStorage.removeItem("token");
@@ -53,6 +80,7 @@ const Home = () => {
     const data = {
       title: title,
       amount: amount,
+      type: type
     };
 
     Axios.post("http://localhost:4001/transactions/create", data, {
@@ -60,16 +88,33 @@ const Home = () => {
     })
       .then((result) => {
         setshowTable(true)
+        setTotal(true);
+        Operationusers();
+        console.log(listoperation);
         setlistoperation([...listoperation,
-            {title: title,
-            amount: amount}
-        ])
-            console.log("result", result);
+          {title: title,
+          amount: amount,
+          type:type}
+        ]);
+        balance([...listoperation,
+          {title: title,
+          amount: amount,
+          type:type}
+        ]);
+
+        console.log("result", result);
       })
       .catch((err) => {
         alert("error");
       });
   };
+
+
+  const handleChangetype= (e)=> {
+    setType(e.target.value);
+  }
+
+
 
   //All user transactions
   const Operationusers = () => {
@@ -85,14 +130,13 @@ const Home = () => {
         if(result.data.length==0){
           console.log('hi');
           setshowTable(false)
-
         }
         else{
           setshowTable(true)
-
         }
-        
+        setTotal(true);
         setlistoperation(result.data)
+        balance(result.data);
         console.log("All operations for user", result.data);
       })
       .catch((err) => {
@@ -114,11 +158,13 @@ const Home = () => {
         headers: headers,
       })
       .then((result) => {
-        console.log('update',result.data)
-        setlistoperation(listoperation.map((val)=>{
+        console.log('update',result.data);
+        const listnewu=listoperation.map((val)=>{
           console.log(val.id==id, id);
           return val.id==id? {id:val.id, title:val.title, amount:newamount, type:val.type}: val
-        }))
+        });
+        setlistoperation(listnewu);
+        balance(listnewu);
       })
       .catch((err) => {
         alert("error");
@@ -131,14 +177,19 @@ const Home = () => {
     Axios.delete(`http://localhost:4001/transactions/delete/${id}`)
       .then((result) => {
         console.log('delete',result.data)
-        setlistoperation(listoperation.filter((val)=>{
+        const listnew= listoperation.filter((val)=>{
           return val.id !=id
-        }))
+        })
+        setlistoperation(listnew)
+        balance(listnew);
+
       })
       .catch((err) => {
         alert("error");
       });
   };
+
+ 
 
 
   console.log(title + amount);
@@ -146,13 +197,18 @@ const Home = () => {
   return (
     <div className="container">
 
-<button onClick={cerarrSesion} className="close-session">Cerrar sesión</button>
+      <div className="button-closesesion">
+        <button onClick={cerarrSesion} type="button" className="btn btn-outline-secondary close-session">Logout</button>
+      </div>
+      
 
       <div className="card">
         <div className="card-header">
           New operation
         </div>
         <div className="card-body">
+
+          
 
             <Label text="Transaction name" />
             <Input attribute={{id: "title",name: "title", type: "text", placeholder: "Enter your Transaction name",}} 
@@ -162,15 +218,37 @@ const Home = () => {
             <Input attribute={{ id: "amount", name: "amount", type: "text", placeholder: "Enter amount",}}
               handleChange={handleChange}
             />
+
+            <Label text="Type" />
+            <select value={type} onChange={handleChangetype} className="form-control">
+              <option value=""></option>
+              <option value="I">Entry</option>
+              <option value="E">Discharge</option>
+            </select>
+
+
             <button onClick={createTransactions} className="button-createoperation">Create Operation</button>
 
         </div>
       </div>
-      
 
-      <button onClick={Operationusers} class="button-morado"> + Press to consult all operations</button>
 
-      {!showtable && <div class="alert alert-light" role="alert">There are no registered operations!</div>}
+      <button onClick={Operationusers} className="button-morado"> + Press to consult all operations</button>
+
+      {!showtable && <div className="alert alert-light" role="alert">There are no registered operations!</div>}
+
+      {total &&
+            <div className="row results">
+            <div className="col-sm-6">
+              <h6 className="entry">Entry</h6>
+              <p>$ {ingresos}</p>
+            </div>
+            <div className="col-sm-6">
+              <h6 className="discharge">Discharge</h6>
+              <p>$ {egresos}</p>
+            </div>
+          </div>
+       } 
 
       <Container>
         <Table>
@@ -183,11 +261,11 @@ const Home = () => {
             
             <tr>
               <td>{val.title}</td>
-              <td>{val.type}</td>
+              <td>{val.type=='I' ? <p className="entry">Entry +</p>:<p className="discharge">Discharge -</p>}</td>
               <td>{val.amount}</td>
               <td><input type="text" onChange={(e)=>{setNewamount(e.target.value)}} placeholder="new amount" className="form-control"></input>
                 <button className="btn btn-outline-primary" onClick={()=>{updateOperations(val.id)}}>Update</button></td>
-              <td><button class="but-delete"onClick={()=>{deleteOperations(val.id)}}><img src={icondelete} className="icondelete"/></button></td>
+              <td><button className="but-delete"onClick={()=>{deleteOperations(val.id)}}><img src={icondelete} className="icondelete"/></button></td>
             </tr>
             
           )

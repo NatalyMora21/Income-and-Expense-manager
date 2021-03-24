@@ -84,47 +84,43 @@ const Login= ()=>{
     return (
 
         <div>
-
-            <header>
-
-            </header>
-
             <div className="container">
-            <div className="login-container">
-                <Title text="Welcome to the registration system of your transactions"/>
-                {hasError &&
-                    <label className='label-error'>Su usuario y contraseña son incorrectos, o no existen en nuestra plataforma</label>
-                }
+                <div className="login-container">
+                    <Title text="Welcome to the registration system of your transactions"/>
 
-            <div class="card">
-                <div class="card-body">
-                    <div class="mb-3">
-                            <Label text="User"/>
-                            <Input attribute={{id:'user', name: 'user', type:'email', placeholder: 'Enter your username' }} handleChange ={handleChange} />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                                <Label text="User"/>
+                                <Input attribute={{id:'user', name: 'user', type:'email', placeholder: 'Enter your username' }} handleChange ={handleChange} />
 
-                            <div id="emailHelp" className="form-text">Enter email with which you registered</div>
-                    </div>
-                    <div class="mb-3">
-                            <Label text="Contraseña"/>
-                            <Input attribute={{id:'password', name: 'password', type:'password', placeholder: 'Enter your password' }}
-                            handleChange ={handleChange}
-                            param= {passwordError}/>
-                    </div>
-        
-                        <button onClick={handleSubmit} class="button-morado">Login</button>
-                        
-                        <div className="newacount"> 
-                        New? <a href="">Create an account.</a>
+                                <div id="emailHelp" className="form-text">Enter email with which you registered</div>
                         </div>
+                        <div class="mb-3">
+                                <Label text="Contraseña"/>
+                                <Input attribute={{id:'password', name: 'password', type:'password', placeholder: 'Enter your password' }}
+                                handleChange ={handleChange}
+                                param= {passwordError}/>
+                        </div>
+            
+                            <button onClick={handleSubmit} class="button-morado">Login</button>
+                            
+                            <div className="newacount"> 
+                            New? <a href="./signup">Create an account.</a>
+                            </div>
+            
+                            
+                    </div>
+                </div> 
+                {hasError &&
+                        <div class="alert alert-danger" role="alert">
+                            Your username and password are incorrect, or do not exist on our platform
+
+                        </div>
+                    }
+                     
         
-                        
-                </div>
-            </div>
-                {passwordError &&
-                <label className='label-error'>
-                    Contraseña invalida
-                </label>}       
-            </div>   
+                </div>   
             </div>
 
         </div>

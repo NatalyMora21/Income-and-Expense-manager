@@ -24,7 +24,7 @@ const createtransaction = async (req, res) => {
   try {
     let transaction = await Transactions.create({
       title,
-      type:"I",
+      type,
       amount,
       userId,
     });
@@ -37,8 +37,6 @@ const createtransaction = async (req, res) => {
 //Function MODIFY transaction
 const modifytransaction = async (req, res) => {
   const { idtransaction, amount } = req.body;
-
-  console.log('idddd',idtransaction);
 
   const updatetransaction = await Transactions.update(
     {

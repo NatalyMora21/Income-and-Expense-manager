@@ -6,6 +6,7 @@ const config = require("../middlware/config");
 //Function CREATE USER
 const signUp = async (req, res) => {
   const { name, email, password } = req.body;
+  console.log(req.body);
   try {
     let passwordnew = await encryptPassword(password);
     console.log("pass", passwordnew);
@@ -16,6 +17,7 @@ const signUp = async (req, res) => {
     });
     res.status(200).json(user);
   } catch (err) {
+    console.log(err)
     res.status(500).json(err);
   }
 };
