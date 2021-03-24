@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import './login.css'
+//import './login.css'
 import Axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import '../style.css'
 import Title from '../components/Title/title.jsx'
 import Label from '../components/Label/label.jsx'
 import Input from '../components/Input/input.jsx'
@@ -20,17 +20,14 @@ const Login= ()=>{
         if (name== 'user'){
             //Varible para almacenar
             setUser(value);
-
         }
         else{
             if(value.length<6){
                 setpasswordError(true)
-
             }else{
                 setpasswordError(false)
                 setpassword(value);
             }
-            
         }
     }
 
@@ -66,13 +63,10 @@ const Login= ()=>{
           password: password,
         })
           .then((result) => {
-            
             if (!result.data.auth){
                 console.log('Message',result.data.message)
                 setIslogin(false)
-                setHasError(true)
-                
-                
+                setHasError(true)   
             }
             else{
               localStorage.setItem("token", result.data.token)
@@ -87,30 +81,53 @@ const Login= ()=>{
           });
       };
 
-
     return (
-        <div className="login-container">
-            <Title text="Bienvenido"/>
-            {hasError &&
-                <label className='label-error'>Su usuario y contraseña son incorrectos, o no existen en nuestra plataforma</label>
-            }
-            <Label text="User"/>
-            <Input attribute={{id:'user', name: 'user', type:'email', placeholder: 'Enter your username' }}
-            handleChange ={handleChange} />
-            <Label text="Contraseña"/>
-            <Input attribute={{id:'password', name: 'password', type:'password', placeholder: 'Enter your password' }}
-            handleChange ={handleChange}
-            param= {passwordError}
-             />
 
-            {passwordError &&
-            <label className='label-error'>
-                Contraseña invalida
-            </label>}
+        <div>
 
-            <button onClick={handleSubmit}>Login</button>
-       
-        </div>   
+            <header>
+
+            </header>
+
+            <div className="container">
+            <div className="login-container">
+                <Title text="Welcome to the registration system of your transactions"/>
+                {hasError &&
+                    <label className='label-error'>Su usuario y contraseña son incorrectos, o no existen en nuestra plataforma</label>
+                }
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                            <Label text="User"/>
+                            <Input attribute={{id:'user', name: 'user', type:'email', placeholder: 'Enter your username' }} handleChange ={handleChange} />
+
+                            <div id="emailHelp" className="form-text">Enter email with which you registered</div>
+                    </div>
+                    <div class="mb-3">
+                            <Label text="Contraseña"/>
+                            <Input attribute={{id:'password', name: 'password', type:'password', placeholder: 'Enter your password' }}
+                            handleChange ={handleChange}
+                            param= {passwordError}/>
+                    </div>
+        
+                        <button onClick={handleSubmit} class="button-morado">Login</button>
+                        
+                        <div className="newacount"> 
+                        New? <a href="">Create an account.</a>
+                        </div>
+        
+                        
+                </div>
+            </div>
+                {passwordError &&
+                <label className='label-error'>
+                    Contraseña invalida
+                </label>}       
+            </div>   
+            </div>
+
+        </div>
     )
 }
 export default Login

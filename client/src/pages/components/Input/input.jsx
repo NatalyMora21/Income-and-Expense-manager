@@ -10,7 +10,7 @@ const Input=(props)=>{
             placeholder={attribute.placeholder} 
             type={attribute.type}
             onChange={(e)=>handleChange(e.target.name, e.target.value)} 
-            className={param ? 'input-error' : 'regular-style'} />
+            className={param ? 'input-error form-control' : 'regular-style form-control'}/>
         </div>
     )
 }

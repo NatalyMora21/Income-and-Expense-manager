@@ -13,6 +13,14 @@ import Title from "../components/Title/title.jsx";
 import Label from "../components/Label/label.jsx";
 import Input from "../components/Input/input.jsx";
 
+import icondelete from '../../assets/images/trash-alt-solid.svg';
+
+
+//import { faHome } from "@fortawesome/free-solid-svg-icons";
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import '../style.css'
+
 const Home = () => {
   const [transactions, setTransactions] = useState("");
 
@@ -21,6 +29,8 @@ const Home = () => {
   const [amount, setAmount] = useState("");
   const [listoperation, setlistoperation] = useState([]);
   const [newamount, setNewamount] = useState(0);
+
+  const [showtable, setshowTable] = useState(true);
 
   function handleChange(name, value) {
     if (name == "title") {
@@ -49,6 +59,7 @@ const Home = () => {
       headers: headers,
     })
       .then((result) => {
+        setshowTable(true)
         setlistoperation([...listoperation,
             {title: title,
             amount: amount}
@@ -68,6 +79,19 @@ const Home = () => {
       },
     })
       .then((result) => {
+
+        console.log(result.data.length);
+
+        if(result.data.length==0){
+          console.log('hi');
+          setshowTable(false)
+
+        }
+        else{
+          setshowTable(true)
+
+        }
+        
         setlistoperation(result.data)
         console.log("All operations for user", result.data);
       })
@@ -120,65 +144,62 @@ const Home = () => {
   console.log(title + amount);
 
   return (
-    <div>
-      <Label text="Transaction name" />
-      <Input
-        attribute={{
-          id: "title",
-          name: "title",
-          type: "text",
-          placeholder: "Enter your Transaction name",
-        }}
-        handleChange={handleChange}
-      />
-      <Label text="Amount" />
-      <Input
-        attribute={{
-          id: "amount",
-          name: "amount",
-          type: "text",
-          placeholder: "Enter amount",
-        }}
-        handleChange={handleChange}
-      />
-      <button onClick={createTransactions}>Create Operation</button>
+    <div className="container">
 
+<button onClick={cerarrSesion} className="close-session">Cerrar sesión</button>
 
-      <button onClick={cerarrSesion}>Cerrar sesión</button>
+      <div className="card">
+        <div className="card-header">
+          New operation
+        </div>
+        <div className="card-body">
 
-      <button onClick={Operationusers}>All operations</button>
+            <Label text="Transaction name" />
+            <Input attribute={{id: "title",name: "title", type: "text", placeholder: "Enter your Transaction name",}} 
+            handleChange={handleChange}
+            />
+            <Label text="Amount" />
+            <Input attribute={{ id: "amount", name: "amount", type: "text", placeholder: "Enter amount",}}
+              handleChange={handleChange}
+            />
+            <button onClick={createTransactions} className="button-createoperation">Create Operation</button>
+
+        </div>
+      </div>
+      
+
+      <button onClick={Operationusers} class="button-morado"> + Press to consult all operations</button>
+
+      {!showtable && <div class="alert alert-light" role="alert">There are no registered operations!</div>}
+
       <Container>
         <Table>
           <thead>
-            <tr>
-              <th>Title</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Actions</th>
-            </tr>
+  
           </thead>
-          <tbody></tbody>
+          <tbody>
+          {listoperation.map((val, i)=>{
+          return (
+            
+            <tr>
+              <td>{val.title}</td>
+              <td>{val.type}</td>
+              <td>{val.amount}</td>
+              <td><input type="text" onChange={(e)=>{setNewamount(e.target.value)}} placeholder="new amount" className="form-control"></input>
+                <button className="btn btn-outline-primary" onClick={()=>{updateOperations(val.id)}}>Update</button></td>
+              <td><button class="but-delete"onClick={()=>{deleteOperations(val.id)}}><img src={icondelete} className="icondelete"/></button></td>
+            </tr>
+            
+          )
+      })}
+
+
+          </tbody>
         </Table>
       </Container>
 
 
-      {listoperation.map((val, i)=>{
-          return (
-            
-            <div>
-              <div>
-                {val.title}
-                {val.amount}
-                {val.type}
-                --{val.id}---
-                <input type="text" onChange={(e)=>{setNewamount(e.target.value)}} placeholder="new amount"></input>
-                <button onClick={()=>{updateOperations(val.id)}}>Update</button>
-                <button onClick={()=>{deleteOperations(val.id)}}>Delete</button>
-              </div>
-            </div>
-            
-          )
-      })}
+
 
 
 
